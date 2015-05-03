@@ -1,5 +1,4 @@
 # mobile-first-exemple
-================
 
 ## Installation
 
