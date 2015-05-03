@@ -1,0 +1,637 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400,300,800);
+
+
+/*************\
+|  VARIABLES  |
+\*************/
+
+// FONTS
+$font_default : 'Open Sans', Arial, sans-serif;
+$font_logo : 'Helvetica', Arial, sans-serif;
+
+// COLORS
+$blue : #4cc6ad;
+$blue_dark : #3f474d;
+$blue_light : #75b0d0;
+$grey : #eaedf1;
+$red : #ff5f3d;
+
+// BREAKPOINTS
+$tablet : 640px;
+$desktop : 860px;
+
+
+/*************\
+|    MIXINS   |
+\*************/
+
+@mixin prefixr($property, $value...) {
+	-webkit-#{$property}: $value;
+	   -moz-#{$property}: $value;
+	    -ms-#{$property}: $value;
+	        #{$property}: $value;
+}
+
+@mixin media-query($media-query) {
+
+	@if $media-query == tablet {
+	  @media only screen and (min-width:$tablet) { @content; }
+	}
+
+	@if $media-query == desktop {
+	  @media only screen and (min-width:$desktop) { @content; }
+	}
+
+}
+
+@mixin tablet {
+	@include media-query(tablet) {
+		@content;
+	}
+}
+
+@mixin desktop {
+	@include media-query(desktop) {
+		@content;
+	}
+}
+
+
+/*************\
+|  	 COMMON   |
+\*************/
+
+* {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	font-family: $font-default;
+	font-weight: 400;
+	font-size: 16px;
+	max-width: 1600px;
+	margin: 0 auto;
+
+	&.popup-opened {
+		overflow: hidden;
+	}
+
+}
+
+figure {
+	margin: 0;
+	position: relative;
+}
+
+.clear:before,
+.clear:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.container {
+	padding: 0 5%;
+	@include prefixr(box-sizing, border-box);
+
+	@include tablet {
+		padding: 0 15%;
+	}
+}
+
+// picture markup alternative
+.images_wrapper {
+	position: relative;
+
+	@include tablet {
+
+		img {
+			display: none;
+		}
+
+		.w640 {
+			display: block;
+			padding-top: 43.8%;
+		}
+
+		&:after {
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 4px;
+			background: url(../images/border_white.png);
+		}
+	}
+
+	@include desktop {
+
+		.w640 {
+			display: none;
+		}
+
+		.w860 {
+			display: block;
+			padding-top: 43.8%;
+		}
+
+	}
+
+}
+
+.images_wrapper img,
+.images_wrapper .media span {
+	width: 100%;
+}
+
+.media {
+	display: block;
+
+	span {
+		display: none;
+		background-size: 100%;
+	}
+
+}
+
+// common figure caption styles
+.caption {
+	text-align: center;
+	color: black;
+	margin: 20px 0;
+
+	@include tablet {
+		color: white;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 100%;
+		@include prefixr(transform, translateY(-50%) translateX(-50%));
+		text-shadow: 0 1px 1px rgba(0,0,0,.2);
+		margin: 0;
+	}
+
+	h1 {
+		font-family: $font_logo;
+		font-size: 1.5625em;
+		font-weight: initial;
+
+		@include tablet {
+			font-size: 2.875em;
+			margin: 0;
+		}
+
+		@include desktop {
+			font-size: 4.5em;
+		}
+
+		span {
+			font-weight: bold;
+		}
+
+	}
+
+	h2 {
+		font-size: 1.125em;
+		font-weight: 300;
+
+		@include tablet {
+			font-size: 1.4375em;
+			margin: 0;
+			margin-bottom: 1em;
+			letter-spacing: 3px;
+		}
+
+		@include desktop {
+			font-size: 2.25em;
+		}
+	}
+
+	.desc {
+
+		p {
+
+			@include desktop {
+				font-size: 1.375em;
+			}
+
+		}
+
+	}
+
+	p {
+
+		.bold {
+			font-weight: 800;
+		}
+
+	}
+
+	.tooltip {
+		background: $red;
+		color: white;
+		display: table;
+		margin: 0 auto;
+		text-decoration: none;
+		position: relative;
+
+		@include tablet {
+
+			&:before {
+				content: "";
+				display: block;
+				position: absolute;
+				top: -9px;
+				left: calc(50% - 5px);
+				width: 0;
+				height: 0;
+				border-left: 10px solid transparent;
+				border-right: 10px solid transparent;
+				border-bottom: 10px solid $red;
+			}
+
+		}
+
+		p,
+		.chevron_wrapper {
+			display: table-cell;
+			vertical-align: middle;
+		}
+
+		p {
+			font-weight: 300;
+			margin: 0;
+			padding: 1em;
+
+			@include desktop {
+				font-size: 1.375em;
+			}
+		}
+
+		.chevron_wrapper {
+			border-left: 1px solid rgba(255,255,255,.2);
+			width: 20%;
+		}
+	}
+}
+
+/*************\
+|  	 HEADER   |
+\*************/
+
+header {
+	border-top: 2px solid $blue;
+	text-align: center;
+
+	@include tablet {
+		text-align: left;
+	}
+
+	h1 {
+		font-family: $font_logo;
+		font-weight: 300;
+		font-size: 1.25em; // 20px
+
+		@include tablet {
+			font-size: 1.625em; // 26px
+		}
+
+		@include desktop {
+			font-size: 2.25em; // 36px;
+		}
+
+		span {
+			font-weight: bold;
+			color: $blue_light;
+		}
+
+	}
+
+}
+
+
+/*************\
+|  	  HERO    |
+\*************/
+
+.hero_wrapper {
+
+	.images_wrapper {
+
+		@include tablet {
+
+			&:after {
+				background: url(../images/border_grey.png);
+			}
+
+		}
+
+	}
+
+}
+
+.hero_video-link {
+	display: table;
+	margin: 0 auto;
+	margin-top: 1em;
+	text-decoration: none;
+	color: black;
+
+	@include tablet {
+		color: white;
+	}
+
+	p,
+	button,
+	small {
+		display: table-cell;
+		vertical-align: middle;
+	}
+
+	small {
+		font-size: .75em;
+		font-weight: 300;
+		font-style: italic;
+
+		@include desktop {
+			font-size: .875em;
+		}
+	}
+
+	p {
+		font-weight: 300;
+		font-style: italic;
+		padding: 0 10px;
+
+		@include desktop {
+			font-size: 1.25em;
+		}
+	}
+
+	.button {
+		font-size: .75em;
+		padding: 0;
+		margin: 0;
+		border: 2px solid black;
+		background: transparent;
+		border-radius: 50%;
+		width: 3em;
+		height: 3em;
+		line-height: 3em;
+
+		@include tablet {
+			border-color: white;
+		}
+
+		&:before {
+			padding-left: 2px;
+		}
+
+	}
+
+
+}
+
+
+/*************\
+|  	 SKILLS   |
+\*************/
+.skills {
+	background: $grey url(../images/pattern.png);
+	color: $blue_dark;
+	margin-top: 20px;
+	padding-top: 20px;
+	text-align: center;
+
+	@include tablet {
+		margin-top: 0;
+	}
+
+	@include desktop {
+		padding-top: 50px;
+		padding-bottom: 50px;
+	}
+
+	.desc_wrapper {
+		margin: 1em 0;
+	}
+
+	.desc {
+		font-size: 1.25em;
+		margin: 0;
+	}
+
+	.skills_list {
+		list-style: none;
+		margin: 0;
+		padding: 1em 0;
+
+		.skills_item {
+			margin: 2em 0;
+			list-style: none;
+
+			@include tablet {
+				float: left;
+				width: 23.3333334%;
+				margin: 2em 5%;
+			}
+
+			figure {
+
+				img {
+					margin-bottom: 10px;
+
+					@include tablet {
+						width: 100%;
+					}
+
+					@include desktop {
+						width: 70%;
+					}
+				}
+
+				figcaption {
+					font-size: 1.25em;
+				}
+
+			}
+
+		}
+
+	}
+
+}
+
+
+/**************\
+|  	  ABOUT    |
+\**************/
+.about {
+
+	.images_wrapper {
+
+		@include tablet {
+
+			.w640 {
+				padding-top: 35%;
+			}
+
+		}
+
+		@include desktop {
+
+			.w860 {
+				padding-top: 35%;
+			}
+
+		}
+
+	}
+
+}
+
+
+/**************\
+|  	 FOOTER    |
+\**************/
+
+footer {
+	background: $grey;
+	text-align: center;
+
+	@include tablet {
+		background: #fff;
+		position: relative;
+	}
+
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.links_list {
+		margin: 20px 0;
+
+		li {
+			margin: 10px 0;
+
+			@include tablet {
+				display: inline-block;
+				margin: 10px 2%;
+			}
+
+			@include desktop {
+				margin: 10px 1%;
+
+				&:after {
+					content:'\2022';
+					color: #444;
+					position: relative;
+					right: -15px;
+				}
+
+				&:last-child:after {
+					content: none;
+				}
+
+			}
+
+			a {
+				color: $blue_dark;
+				font-weight: 300;
+				text-decoration: none;
+			}
+
+		}
+
+	}
+
+	.social_list {
+
+		@include tablet {
+			position: absolute;
+			right: 5%;
+			top: 50%;
+			@include prefixr(transform, translateY(-50%));
+		}
+
+		li {
+			float: left;
+			width: 50%;
+			height: 50px;
+
+			@include tablet {
+				width: 30px;
+				height: 30px;
+				border-radius: 50%;
+				margin: 0 5px;
+			}
+
+			a {
+				color: white;
+				display: block;
+				width: 100%;
+				height: 100%;
+
+				i {
+					position: relative;
+					top: 50%;
+					@include prefixr(transform, translateY(-50%));
+				}
+
+			}
+
+			&.fb {
+				background: #5371af;
+			}
+
+			&.tw {
+				background: #55cefb;
+			}
+
+		}
+
+	}
+
+}
+
+
+/**************\
+|  	  POPUP    |
+\**************/
+
+#popup {
+	position: fixed;
+	z-index: 99999;
+	width: 80vw;
+	height: 80vh;
+	left: 10vw;
+	top: 10vh;
+	display: none;
+
+	&.opened {
+		display: block;
+	}
+
+	#player {
+		width: 100%;
+		height: 100%;
+	}
+
+	#close-button {
+		position: absolute;
+		top: -25px;
+		right: -25px;
+		width: 50px;
+		height: 50px;
+		border: 2px solid black;
+		outline: none;
+		background: white;
+		border-radius: 50%;
+	}
+
+}
